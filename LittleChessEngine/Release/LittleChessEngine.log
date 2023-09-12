@@ -1,0 +1,22 @@
+﻿  88stuff.cpp
+  board.cpp
+C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(260,34): warning C4552: '+': result of expression not used
+C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(972,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(981,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(1004,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(1016,8): warning C4101: 'info': unreferenced local variable
+  Eval.cpp
+C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\Eval.cpp(59,11): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  main.cpp
+  Move.cpp
+  Pieces.cpp
+  Search.cpp
+  UCI.cpp
+C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\UCI.cpp(57,14): warning C4018: '<': signed/unsigned mismatch
+  util.cpp
+  Generating code
+  1135 of 1147 functions (99.0%) were compiled, the rest were copied from previous compilation.
+    20 functions were new in current compilation
+    2 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  LittleChessEngine.vcxproj -> C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\Release\LittleChessEngine.exe

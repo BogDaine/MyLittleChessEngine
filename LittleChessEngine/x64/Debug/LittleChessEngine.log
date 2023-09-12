@@ -1,0 +1,20 @@
+﻿  88stuff.cpp
+  board.cpp
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\strstream(23,24): error C4996: 'std::_Header_strstream': warning STL4005: <strstream> is deprecated in C++17. You can define _SILENCE_CXX17_STRSTREAM_DEPRECATION_WARNING or _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS to acknowledge that you have received this warning.
+C:\Users\Bogdi\source\repos\LittleChessEngine\LittleChessEngine\board.cpp(254,34): warning C4552: '+': result of expression not used
+C:\Users\Bogdi\source\repos\LittleChessEngine\LittleChessEngine\board.cpp(871,1): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Bogdi\source\repos\LittleChessEngine\LittleChessEngine\board.cpp(1013,8): warning C4101: 'info': unreferenced local variable
+  Eval.cpp
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\strstream(23,24): error C4996: 'std::_Header_strstream': warning STL4005: <strstream> is deprecated in C++17. You can define _SILENCE_CXX17_STRSTREAM_DEPRECATION_WARNING or _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS to acknowledge that you have received this warning.
+C:\Users\Bogdi\source\repos\LittleChessEngine\LittleChessEngine\Eval.cpp(6,46): warning C4267: 'argument': conversion from 'size_t' to 'const int', possible loss of data
+C:\Users\Bogdi\source\repos\LittleChessEngine\LittleChessEngine\Eval.cpp(59,11): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  main.cpp
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\strstream(23,24): error C4996: 'std::_Header_strstream': warning STL4005: <strstream> is deprecated in C++17. You can define _SILENCE_CXX17_STRSTREAM_DEPRECATION_WARNING or _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS to acknowledge that you have received this warning.
+  Move.cpp
+  Pieces.cpp
+  Search.cpp
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\strstream(23,24): error C4996: 'std::_Header_strstream': warning STL4005: <strstream> is deprecated in C++17. You can define _SILENCE_CXX17_STRSTREAM_DEPRECATION_WARNING or _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS to acknowledge that you have received this warning.
+  UCI.cpp
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\strstream(23,24): error C4996: 'std::_Header_strstream': warning STL4005: <strstream> is deprecated in C++17. You can define _SILENCE_CXX17_STRSTREAM_DEPRECATION_WARNING or _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS to acknowledge that you have received this warning.
+  util.cpp
+  Generating Code...
