@@ -12,14 +12,14 @@
 
 
 
-#define NORTH	-16
-#define SOUTH	 16
+#define NORTH	16
+#define SOUTH	 -16
 #define WEST	-1
 #define EAST	 1
-#define NW		 -17
-#define NE		 -15
-#define SW		 15
-#define SE		 17
+#define NW		 15
+#define NE		 17
+#define SW		 -17
+#define SE		 -15
 
 
 
@@ -69,7 +69,7 @@ int is_checked(const int& color);
 int check_squares_equal(const int* squares, const size_t& size, const int& value);
 int check_squares_attacked(const int* squares, const size_t& size, const int& color);
 
-void board_to_stream(std::ostream& flow);
+void board_to_stream(std::ostream& flow, const bool& blackPOV = false);
 void board_init();
 
 //nu se face validarea string-ului FEN!
