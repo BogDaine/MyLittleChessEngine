@@ -39,8 +39,8 @@ static int stm;
 static int castle_rights;
 static int en_passant;
 
-static int WK_pos;
-static int BK_pos;
+static int WK_pos = -1;
+static int BK_pos = -1;
 
 static std::stack<Move>moveStack;
 

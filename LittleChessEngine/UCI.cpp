@@ -2,6 +2,7 @@
 
 #include <sstream>
 #include <iomanip>
+#include <chrono>
 
 void command_loop()
 {
@@ -61,9 +62,9 @@ void command_loop()
 			continue;
 		}
 
-		if (strcmp ("umm", command) == 0) {
+		if (strcmp("umm", command) == 0) {
 			if (get_moveStack()->size()) {
-				
+
 				unmake_move();
 			}
 		}
@@ -80,12 +81,15 @@ void command_loop()
 		if (strncmp("go perft ", command, 9) == 0) {
 			std::stringstream ss(command + 9);
 			std::cout << "PERFORMANCE TEST!!" << std::endl;
-			
+
 			int depth;
 			ss >> depth;
 
-			std::cout <<"nodes searched: " <<  perft(depth, 0) << std::endl << std::endl;
-
+			const auto start{ std::chrono::steady_clock::now() };
+			std::cout << "nodes searched: " << perft(depth, 0) << std::endl << std::endl;
+			const auto end{ std::chrono::steady_clock::now() };
+			std::chrono::duration<double> elapsed_seconds{ end - start };
+			std::cout << "elapsed time: " << elapsed_seconds.count() << " s" << std::endl;
 			continue;
 		}
 

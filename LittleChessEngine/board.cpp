@@ -188,6 +188,11 @@ bool make_move(const Move& m)
 		board[m.from] = E;
 	}
 
+	if (board[m.to] == WK)
+		WK_pos = m.to;
+	if (board[m.to] == BK)
+		BK_pos = m.to;
+
 	stm = !stm;
 	moveStack.push(m);
 	return true;
@@ -249,6 +254,10 @@ void unmake_move()
 
 	castle_rights = m.castle_rights;
 	en_passant = m.ep;
+	if (board[m.from] == WK)
+		WK_pos = m.from;
+	if (board[m.from] == BK)
+		BK_pos = m.from;
 	//board_to_stream(std::cout);
 	//std::cout << "-----------------------------------------------" << std::endl;
 
@@ -1072,6 +1081,10 @@ void load_from_fen(const std::string& fen) {
 	if (king_pos(BLACK) != E8) {
 		castle_rights = castle_rights & ~(CASTLERIGHTS_BK | CASTLERIGHTS_BQ);
 	}
+
+	WK_pos = king_pos(WHITE);
+	BK_pos = king_pos(BLACK);
+
 }
 
 void empty_moveStack()
@@ -1084,6 +1097,13 @@ int king_pos(const int& color)
 {
 	if (color != 0 && color != 1)
 		return -1;
+	if (color == WHITE && WK_pos != -1) {
+		return WK_pos;
+	}
+	else
+		if (color == BLACK && BK_pos != -1) {
+			return BK_pos;
+	}
 	int check_for = (color == WHITE ? WK : BK);
 	for (int i = 0; !(i & 128); ++i) {
 		if (i & 0x88) {

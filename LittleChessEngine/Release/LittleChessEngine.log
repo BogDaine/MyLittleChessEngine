@@ -1,12 +1,12 @@
 ﻿  board.cpp
-C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(260,34): warning C4552: '+': result of expression not used
-C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(972,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(269,34): warning C4552: '+': result of expression not used
 C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(981,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(1004,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(1016,8): warning C4101: 'info': unreferenced local variable
+C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(990,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(1013,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(1025,8): warning C4101: 'info': unreferenced local variable
   Generating code
-  2 of 1147 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+  9 of 1158 functions ( 0.8%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+    3 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   LittleChessEngine.vcxproj -> C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\Release\LittleChessEngine.exe
