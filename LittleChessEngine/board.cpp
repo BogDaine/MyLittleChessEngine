@@ -153,6 +153,10 @@ bool make_move(const Move& m)
 			castle_rights = castle_rights & ~CASTLERIGHTS_BQ;
 		}
 	}
+	stm = !stm;
+	if (m.flags & MOVEFLAG_CAPTURE) {
+		material[stm] -= piece_val(m.capt);
+	}
 
 	//en-passant
 
@@ -160,9 +164,11 @@ bool make_move(const Move& m)
 		switch (m.side) {
 		case WHITE:
 			board[m.ep + SOUTH] = E;
+			material[BLACK] -= piece_val(BP);
 			break;
 		case BLACK:
 			board[m.ep + NORTH] = E;
+			material[WHITE] -= piece_val(WP);
 			break;
 		}
 	}
@@ -181,7 +187,12 @@ bool make_move(const Move& m)
 	//promotions
 	if (m.flags & MOVEFLAG_PROMOTION) {
 		board[m.to] = m.promote;
+		
+		material[m.side] -= piece_val(board[m.from]);
+		material[m.side] += piece_val(m.promote);
+
 		board[m.from] = 0;
+
 	}
 	else {
 		board[m.to] = board[m.from];
@@ -193,7 +204,7 @@ bool make_move(const Move& m)
 	if (board[m.to] == BK)
 		BK_pos = m.to;
 
-	stm = !stm;
+	
 	moveStack.push(m);
 	return true;
 }
@@ -206,9 +217,13 @@ void unmake_move()
 		switch (m.side) {
 		case WHITE:
 			board[m.from] = WP;
+			material[WHITE] -= piece_val(m.promote);
+			material[WHITE] += piece_val(WP);
 			break;
 		case BLACK:
 			board[m.from] = BP;
+			material[BLACK] -= piece_val(m.promote);
+			material[BLACK] += piece_val(BP);
 			break;
 		}
 	}
@@ -219,6 +234,7 @@ void unmake_move()
 
 	if (m.flags & MOVEFLAG_CAPTURE) {
 		board[m.to] = m.capt;
+		material[stm] += piece_val(m.capt);
 	}
 	else board[m.to] = E;
 
@@ -248,6 +264,7 @@ void unmake_move()
 			board[m.ep + NORTH] = m.capt;
 			break;
 		}
+		material[stm] += piece_val(m.capt);
 	}
 
 	stm = m.side;
@@ -757,6 +774,11 @@ int get_en_passant()
 	return en_passant;
 }
 
+int get_material(const int& color)
+{
+	return material[color];
+}
+
 std::stack<Move>* get_moveStack()
 {
 	return &moveStack;
@@ -998,6 +1020,8 @@ int check_squares_attacked(const int* squares, const size_t& size, const int& co
 void load_from_fen(const std::string& fen) {
 
 	empty_moveStack();
+	material[0] = 0;
+	material[1] = 0;
 
 	//std::cout << fen << std::endl;
 	std::stringstream ss(fen);
@@ -1032,7 +1056,9 @@ void load_from_fen(const std::string& fen) {
 				}
 			}
 			else if (is_piece(fen_piece_to_piece(info))) {
-				board[index] = fen_piece_to_piece(info);
+				int piece = fen_piece_to_piece(info);
+				board[index] = piece;
+				material[piece_props(piece).color] += piece_val(piece);
 				//std::cout << fen_piece_to_piece(info)<<std::endl;
 				index++;
 			}

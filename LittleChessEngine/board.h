@@ -8,8 +8,7 @@
 
 
 #include "Move.h"
-#include "Pieces.h"
-
+#include "eval_options.h"
 
 
 #define NORTH	16
@@ -30,6 +29,8 @@ struct Piece {
 };
 
 extern std::pair<std::vector<Piece>, std::vector<Piece>> pieces;
+
+static int material[2] = { 0,0 };
 
 //TODO: make a board of references to pieces
 //MAYBE
@@ -54,6 +55,9 @@ std::vector<Move>legal_moves();
 int get_castle_rights();
 int get_stm();
 int get_en_passant();
+
+int get_material(const int& color);
+
 std::stack<Move>* get_moveStack();
 int* get_board();
 

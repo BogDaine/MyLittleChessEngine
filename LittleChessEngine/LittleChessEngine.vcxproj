@@ -144,6 +144,7 @@
     <ClCompile Include="88stuff.cpp" />
     <ClCompile Include="board.cpp" />
     <ClCompile Include="Eval.cpp" />
+    <ClCompile Include="eval_options.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Move.cpp" />
     <ClCompile Include="Pieces.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="88stuff.h" />
     <ClInclude Include="board.h" />
     <ClInclude Include="Eval.h" />
+    <ClInclude Include="eval_options.h" />
     <ClInclude Include="flags.h" />
     <ClInclude Include="Move.h" />
     <ClInclude Include="Pieces.h" />

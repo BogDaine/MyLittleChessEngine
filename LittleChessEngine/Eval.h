@@ -6,5 +6,4 @@ Move random_move();
 
 float eval();
 
-float piece_val(const int& piece);
-float material(float& white, float& black);
+//float material(float& white, float& black);
