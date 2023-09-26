@@ -4,6 +4,6 @@
 
 Move random_move();
 
-float eval();
+int eval();
 
 //float material(float& white, float& black);

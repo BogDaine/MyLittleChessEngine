@@ -4,6 +4,10 @@
 #include <iostream>
 #include <random>
 
+#define MAX(a,b) ((a)>(b)?(a):(b))
+#define MIN(a,b) ((a)<(b)?(a):(b))
+#define ABS(a) (((a)>=0)?(a):-(a))
+
 template <typename T>
 void vector_to_stream(std::vector<T> v, std::ostream& flow){
 	for (auto x : v)

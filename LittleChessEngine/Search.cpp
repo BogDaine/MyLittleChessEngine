@@ -41,3 +41,25 @@ long perft(const int& maxDepth, const int& depth)
 	}
 	return counter;
 }
+
+int search(const int& depth)
+{
+	if (depth == 0) {
+		return eval();
+	}
+	int bestEval = (stm) ? -99999999 : 99999999;
+	auto moves = legal_moves();
+	if (moves.empty()) {
+		if(is_checked(stm))
+			return bestEval;
+		return 0;
+	}
+	for (int i = 0; i < moves.size(); i++){
+		make_move(moves[i]);
+		int ev = -search(depth - 1);
+		//bestEval = (stm) ? ():();
+		bestEval = MAX(ev, bestEval);
+		unmake_move();
+	}
+	return bestEval;
+}
