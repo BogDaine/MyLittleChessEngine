@@ -7,11 +7,11 @@ Move random_move()
 	return moves[moveIndex];
 }
 
-float eval()
+int eval()
 {
 	float whiteMat = 0, blackMat = 0;
 	//float e = material(whiteMat, blackMat);
-	float e = get_material(WHITE)+get_material(BLACK);
+	int e = get_material(WHITE)+get_material(BLACK);
 	return e;
 }
 

@@ -74,8 +74,9 @@ void command_loop()
 		}
 
 		if (strcmp("go", command) == 0) {
-			auto m = random_move();
-			std::cout << m.from << " - " << m.to << std::endl;
+			//auto m = random_move();
+			//std::cout << m.from << " - " << m.to << std::endl;
+			best_move(4);
 			continue;
 		}
 		if (strncmp("go perft ", command, 9) == 0) {
