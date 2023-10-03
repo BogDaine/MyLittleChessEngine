@@ -11,6 +11,6 @@ int main()
 {
     board_init();
 
-    say_hello();    
+    say_hello();
     command_loop();
 }
