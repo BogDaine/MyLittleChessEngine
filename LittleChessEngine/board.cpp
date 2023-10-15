@@ -290,19 +290,17 @@ std::vector<int>straight_moves(const int& sq, int c) {
 	return moves;
 }
 
-void add_piece_moves(const PieceProps& piece, const int& index, std::vector<Move>& moves) {
-	//TODO: unhardcode this, maybe
 
+void add_pawn_moves(const int& index, const int& color, std::vector<Move>& moves, const bool& capturesOnly) {
 	Move m = { 0,
-						0, 0,
-						en_passant,
-						stm,
-						E,
-						E,
-						castle_rights };
-	//TODO: promotions
-	if (piece.movedir & P_PAWN) {
-		if (piece.color == WHITE) {
+					0, 0,
+					en_passant,
+					stm,
+					E,
+					E,
+					castle_rights };
+
+		if (color == WHITE) {
 			int left = index + NW, forward = index + NORTH, forwardx2 = index + NORTH + NORTH, right = index + NE;
 			int promotionPieces[4] = { WN, WB, WR, WQ };
 
@@ -360,7 +358,12 @@ void add_piece_moves(const PieceProps& piece, const int& index, std::vector<Move
 					moves.push_back(m);
 				}
 			}
+			if (capturesOnly)
+				return;
+
+			bool fwdFree = false;
 			if (!(forward & 0x88) && piece_props(board[forward]).color == -1) {
+				fwdFree = true;
 				m.from = index;
 				m.to = forward;
 
@@ -378,14 +381,14 @@ void add_piece_moves(const PieceProps& piece, const int& index, std::vector<Move
 					moves.push_back(m);
 				}
 			}
-			if (rank_of(index) == 2 && piece_props(board[forward]).color == -1 && piece_props(board[forwardx2]).color == -1) {
+			if (rank_of(index) == 2 && fwdFree && piece_props(board[forwardx2]).color == -1) {
 				m.from = index;
 				m.to = forwardx2;
 				m.flags = MOVEFLAG_PAWNX2;
 				moves.push_back(m);
 			}
 		}
-		if (piece.color == BLACK) {
+		else if (color == BLACK) {
 			int left = index + SW, forward = index + SOUTH, forwardx2 = index + SOUTH + SOUTH, right = index + SE;
 			int promotionPieces[4] = { BN, BB, BR, BQ };
 
@@ -443,7 +446,12 @@ void add_piece_moves(const PieceProps& piece, const int& index, std::vector<Move
 					moves.push_back(m);
 				}
 			}
+			if (capturesOnly)
+				return;
+
+			bool fwdFree = false;
 			if (!(forward & 0x88) && piece_props(board[forward]).color == -1) {
+				fwdFree = true;
 				m.from = index;
 				m.to = forward;
 
@@ -460,220 +468,132 @@ void add_piece_moves(const PieceProps& piece, const int& index, std::vector<Move
 					moves.push_back(m);
 				}
 			}
-			if (rank_of(index) == 7 && piece_props(board[forward]).color == -1 && piece_props(board[forwardx2]).color == -1) {
+			if (rank_of(index) == 7 && fwdFree && piece_props(board[forwardx2]).color == -1) {
 				m.from = index;
 				m.to = forwardx2;
 				m.flags = MOVEFLAG_PAWNX2;
 				moves.push_back(m);
 			}
 		}
+	
+}
+void add_knight_moves(const int& index, const int& color, std::vector<Move>& moves, const bool& capturesOnly) {
+	Move m = { 0,
+					0, 0,
+					en_passant,
+					stm,
+					E,
+					E,
+					castle_rights };
+
+	//int dir[8] = { -33, -31, -14, 18, 33, 31, 14, -18 };
+	for (int i = 0; !(i & 8); i++) {
+		int to = index + knight_dir[i];
+		if (to & 0x88)
+			continue;
+		PieceProps dest = piece_props(board[to]);
+		m.from = index;
+		m.to = to;
+		if (dest.color == -1) {
+			if (!capturesOnly)
+			{
+				m.flags = 0;
+				moves.push_back(m);
+			}
+		}
+		else {
+			if (dest.color != color) {
+				m.flags = MOVEFLAG_CAPTURE;
+				m.capt = board[to];
+				moves.push_back(m);
+			}
+		}
+
+
 	}
-	else
-		if (piece.movedir & P_KNIGHT) {
-			int dir[8] = { -33, -31, -14, 18, 33, 31, 14, -18 };
-			for (int i = 0; !(i & 8); i++) {
-				int to = index + dir[i];
-				if (to & 0x88)
-					continue;
-				PieceProps dest = piece_props(board[to]);
-				m.from = index;
-				m.to = to;
-				if (dest.color == -1) {
+}
+void add_sliding_moves(const int& index, const int& color, const int* directions, const int& size, std::vector<Move>& moves, const bool& capturesOnly) {
+	Move m = { 0,
+					0, 0,
+					en_passant,
+					stm,
+					E,
+					E,
+					castle_rights };
+
+	m.from = index;
+	for (int i = 0; i < size; ++i) {
+
+		for (int to = index + directions[i]; !(to & 0x88); to += directions[i]) {
+			PieceProps dest = piece_props(board[to]);
+			m.to = to;
+			if (dest.color == -1) {
+				if (!capturesOnly) {
 					m.flags = 0;
 					moves.push_back(m);
 				}
-				else {
-					if (dest.color != stm) {
-						m.flags = MOVEFLAG_CAPTURE;
-						m.capt = board[to];
-						moves.push_back(m);
-					}
-				}
-
-			}
-		}
-		else
-			if (piece.movedir & P_SLIDING) {
-				if (piece.movedir & P_MOVE_STRAIGHT) {
-
-
-					for (int i = index + NORTH; !(i & 0x88); i += NORTH) {
-						PieceProps dest = piece_props(board[i]);
-						m.from = index;
-						m.to = i;
-						if (dest.color == -1) {
-							m.flags = 0;
-							moves.push_back(m);
-						}
-						else {
-							if (dest.color != stm) {
-								m.flags = MOVEFLAG_CAPTURE;
-								m.capt = board[i];
-								moves.push_back(m);
-							}
-							break;
-						}
-					}
-					for (int i = index + SOUTH; !(i & 0x88); i += SOUTH) {
-						PieceProps dest = piece_props(board[i]);
-						m.from = index;
-						m.to = i;
-						if (dest.color == -1) {
-							m.flags = 0;
-							moves.push_back(m);
-						}
-						else {
-							if (dest.color != stm) {
-								m.flags = MOVEFLAG_CAPTURE;
-								m.capt = board[i];
-								moves.push_back(m);
-							}
-							break;
-						}
-					}
-					for (int i = index + WEST; !(i & 0x88); i += WEST) {
-						PieceProps dest = piece_props(board[i]);
-						m.from = index;
-						m.to = i;
-						if (dest.color == -1) {
-							m.flags = 0;
-							moves.push_back(m);
-						}
-						else {
-							if (dest.color != stm) {
-								m.flags = MOVEFLAG_CAPTURE;
-								m.capt = board[i];
-								moves.push_back(m);
-							}
-							break;
-						}
-					}
-					for (int i = index + EAST; !(i & 0x88); i += EAST) {
-						PieceProps dest = piece_props(board[i]);
-						m.from = index;
-						m.to = i;
-						if (dest.color == -1) {
-							m.flags = 0;
-							moves.push_back(m);
-						}
-						else {
-							if (dest.color != stm) {
-								m.flags = MOVEFLAG_CAPTURE;
-								m.capt = board[i];
-								moves.push_back(m);
-							}
-							break;
-						}
-					}
-				}
-				if (piece.movedir & P_MOVE_DIAG) {
-					for (int i = index + NW; !(i & 0x88); i += NW) {
-						PieceProps dest = piece_props(board[i]);
-						m.from = index;
-						m.to = i;
-						if (dest.color == -1) {
-							m.flags = 0;
-							moves.push_back(m);
-						}
-						else {
-							if (dest.color != stm) {
-								m.flags = MOVEFLAG_CAPTURE;
-								m.capt = board[i];
-								moves.push_back(m);
-							}
-							break;
-						}
-					}
-					for (int i = index + NE; !(i & 0x88); i += NE) {
-						PieceProps dest = piece_props(board[i]);
-						m.from = index;
-						m.to = i;
-						if (dest.color == -1) {
-							m.flags = 0;
-							moves.push_back(m);
-						}
-						else {
-							if (dest.color != stm) {
-								m.flags = MOVEFLAG_CAPTURE;
-								m.capt = board[i];
-								moves.push_back(m);
-							}
-							break;
-						}
-					}
-					for (int i = index + SE; !(i & 0x88); i += SE) {
-						PieceProps dest = piece_props(board[i]);
-						m.from = index;
-						m.to = i;
-						if (dest.color == -1) {
-							m.flags = 0;
-							moves.push_back(m);
-						}
-						else {
-							if (dest.color != stm) {
-								m.flags = MOVEFLAG_CAPTURE;
-								m.capt = board[i];
-								moves.push_back(m);
-							}
-							break;
-						}
-					}
-					for (int i = index + SW; !(i & 0x88); i += SW) {
-						PieceProps dest = piece_props(board[i]);
-						m.from = index;
-						m.to = i;
-						if (dest.color == -1) {
-							m.flags = 0;
-							moves.push_back(m);
-						}
-						else {
-							if (dest.color != stm) {
-								m.flags = MOVEFLAG_CAPTURE;
-								m.capt = board[i];
-								moves.push_back(m);
-							}
-							break;
-						}
-					}
-				}
 			}
 			else {
-				if (piece.movedir & P_MOVE_STRAIGHT && piece.movedir & P_MOVE_DIAG) {
-					int dir[8] = { NW, NORTH, NE, EAST, SE, SOUTH, SW, WEST };
-					for (int i = 0; !(i & 8); i++) {
-						int to = index + dir[i];
-						if (to & 0x88)
-							continue;
-						PieceProps dest = piece_props(board[to]);
-						m.from = index;
-						m.to = to;
-						if (dest.color == -1) {
-							m.flags = 0;
-							moves.push_back(m);
-						}
-						else {
-							if (dest.color != stm) {
-								m.flags = MOVEFLAG_CAPTURE;
-								m.capt = board[to];
-								moves.push_back(m);
-							}
-						}
-
-					}
+				if (dest.color != color) {
+					m.flags = MOVEFLAG_CAPTURE;
+					m.capt = board[to];
+					moves.push_back(m);
 				}
-				/*if (piece.movedir & P_MOVE_DIAG) {
-
-				}*/
+				break;
 			}
-	//CASTLE
-	switch (board[index]) {
-	case WK:
+		}
+	}
+}
+void add_king_moves(const int& index, const int& color, std::vector<Move>& moves, const bool& capturesOnly) {
+	Move m = { 0,
+					0, 0,
+					en_passant,
+					stm,
+					E,
+					E,
+					castle_rights };
+
+	for (int i = 0; !(i & 8); i++) {
+		int to = index + king_dir[i];
+		if (to & 0x88)
+			continue;
+		PieceProps dest = piece_props(board[to]);
+		m.from = index;
+		m.to = to;
+		if (dest.color == -1) {
+			if (!capturesOnly) {
+				m.flags = 0;
+				moves.push_back(m);
+			}
+		}
+		else {
+			if (dest.color != color) {
+				m.flags = MOVEFLAG_CAPTURE;
+				m.capt = board[to];
+				moves.push_back(m);
+			}
+		}
+	}
+
+}
+void add_castle_moves(const int& color, std::vector<Move>& moves) {
+
+	Move m = { 0,
+					0, 0,
+					en_passant,
+					stm,
+					E,
+					E,
+					castle_rights };
+
+	switch (color) {
+	case WHITE:
+		m.from = E1;
 		if (castle_rights & CASTLERIGHTS_WK) {
 			int squares[2] = { F1, G1 };
 			if (check_squares_equal(squares, 2, E)) {
 				if (!check_squares_attacked(squares, 2, WHITE) && !is_attacked_simple(E1, WHITE) && board[H1] == WR) {
 					m.flags = MOVEFLAG_CASTLE_WK;
-					m.from = index;
 					m.to = G1;
 					moves.push_back(m);
 				}
@@ -685,7 +605,6 @@ void add_piece_moves(const PieceProps& piece, const int& index, std::vector<Move
 			if (check_squares_equal(squares, 3, E)) {
 				if (!check_squares_attacked(squares, 2, WHITE) && !is_attacked_simple(E1, WHITE) && board[A1] == WR) {
 					m.flags = MOVEFLAG_CASTLE_WQ;
-					m.from = index;
 					m.to = C1;
 					moves.push_back(m);
 				}
@@ -693,8 +612,8 @@ void add_piece_moves(const PieceProps& piece, const int& index, std::vector<Move
 		}
 
 		break;
-	case BK:
-
+	case BLACK:
+		m.from = E8;
 		if (castle_rights & CASTLERIGHTS_BK) {
 			if (is_checked(BLACK))
 				break;
@@ -702,7 +621,6 @@ void add_piece_moves(const PieceProps& piece, const int& index, std::vector<Move
 			if (check_squares_equal(squares, 2, E)) {
 				if (!check_squares_attacked(squares, 2, BLACK) && !is_attacked_simple(E8, BLACK) && board[H8] == BR) {
 					m.flags = MOVEFLAG_CASTLE_BK;
-					m.from = index;
 					m.to = G8;
 					moves.push_back(m);
 				}
@@ -713,7 +631,6 @@ void add_piece_moves(const PieceProps& piece, const int& index, std::vector<Move
 			if (check_squares_equal(squares, 3, E)) {
 				if (!check_squares_attacked(squares, 2, BLACK) && !is_attacked_simple(E8, BLACK) && board[A8] == BR) {
 					m.flags = MOVEFLAG_CASTLE_BQ;
-					m.from = index;
 					m.to = C8;
 					moves.push_back(m);
 				}
@@ -725,7 +642,31 @@ void add_piece_moves(const PieceProps& piece, const int& index, std::vector<Move
 	}
 }
 
-std::vector<Move> generate_moves()
+void add_piece_moves_beta(const PieceProps& piece, const int& index, std::vector<Move>& moves, const bool& capturesOnly = false) {
+	if (piece.movedir & P_PAWN)
+	{
+		add_pawn_moves(index, piece.color, moves, capturesOnly);
+		return;
+	}
+	if (piece.movedir & P_KNIGHT)
+	{
+		add_knight_moves(index, piece.color, moves, capturesOnly);
+		return;
+	}
+	if (piece.movedir & P_SLIDING) {
+		{	if (piece.movedir & P_MOVE_DIAG)
+			add_sliding_moves(index, piece.color, bishop_dir, 4, moves, capturesOnly);
+		if (piece.movedir & P_MOVE_STRAIGHT)
+			add_sliding_moves(index, piece.color, rook_dir, 4, moves, capturesOnly);
+		}
+		return;
+	}
+	if (piece.movedir & (P_MOVE_DIAG + P_MOVE_STRAIGHT)) {
+		add_king_moves(index, piece.color, moves, capturesOnly);
+	}
+}
+
+std::vector<Move> generate_moves(const bool& capturesOnly)
 {
 	std::vector<Move> mvs;
 
@@ -737,18 +678,21 @@ std::vector<Move> generate_moves()
 		PieceProps piece = piece_props(board[i]);
 
 		if (piece.color == stm) {
-			add_piece_moves(piece, i, mvs);
+			//add_piece_moves(piece, i, mvs);
+			add_piece_moves_beta(piece, i, mvs, capturesOnly);
+			
 		}
 	}
-
+	if(!capturesOnly)
+		add_castle_moves(stm, mvs);
 
 	return mvs;
 }
 
-std::vector<Move> legal_moves()
+std::vector<Move> legal_moves(const bool& capturesOnly)
 {
 	std::vector<Move> allMoves, legalMoves;
-	allMoves = generate_moves();
+	allMoves = generate_moves(capturesOnly);
 	for (const auto& m : allMoves) {
 		make_move(m);
 		if (!is_checked(m.side)) {

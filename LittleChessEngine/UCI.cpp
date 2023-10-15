@@ -38,6 +38,20 @@ void command_loop()
 			}
 			continue;
 		}
+
+		if (strcmp("lmc", command) == 0)
+		{
+			auto mvs = legal_moves(true);
+			std::cout << mvs.size() << " moves;" << std::endl;
+			int i = 0;
+			for (auto x : mvs) {
+				std::cout << i++ << ": ";
+				x.print(true);
+				std::cout << std::endl;
+			}
+			continue;
+		}
+
 		if (strcmp("plm", command) == 0)
 		{
 			auto mvs = generate_moves();
