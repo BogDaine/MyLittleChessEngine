@@ -1,12 +1,7 @@
-﻿  board.cpp
-C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(286,34): warning C4552: '+': result of expression not used
-C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(947,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(956,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(981,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(993,8): warning C4101: 'info': unreferenced local variable
+﻿  UCI.cpp
   Generating code
-  4 of 1143 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+  192 of 1289 functions (14.9%) were compiled, the rest were copied from previous compilation.
+    138 functions were new in current compilation
+    185 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   LittleChessEngine.vcxproj -> C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\Release\LittleChessEngine.exe

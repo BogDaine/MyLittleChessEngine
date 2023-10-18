@@ -15,17 +15,17 @@ static int emptyboard[128] = {
 	E,  E,  E,  E,  E,  E,  E,  E, O,O,O,O,O,O,O,O,
 	E,  E,  E,  E,  E,  E,  E,  E, O,O,O,O,O,O,O,O,
 };
-//int board[128] = {
-//	BR, BN, BB, BQ, BK, BB, BN, BR, O,O,O,O,O,O,O,O,
-//	BP, BP, BP, BP, BP, BP, BP, BP, O,O,O,O,O,O,O,O,
-//	E,  E,  E,  E,  E,  E,  E,  E,  O,O,O,O,O,O,O,O,
-//	E,  E,  E,  E,  E,  E,  E,  E,  O,O,O,O,O,O,O,O,
-//	E,  E,  E,  E,  E,  E,  E,  E,  O,O,O,O,O,O,O,O,
-//	E,  E,  E,  E,  E,  E,  E,  E,  O,O,O,O,O,O,O,O,
-//	WP, WP, WP, WP, WP, WP, WP, WP, O,O,O,O,O,O,O,O,
-//	WR, WN, WB, WQ, WK, WB, WN, WR, O,O,O,O,O,O,O,O,
-//};
-// 
+int board[128] = {
+	WR, WN, WB, WQ, WK, WB, WN, WR, O,O,O,O,O,O,O,O,
+	WP, WP, WP, WP, WP, WP, WP, WP, O,O,O,O,O,O,O,O,
+	E,  E,  E,  E,  E,  E,  E,  E,  O,O,O,O,O,O,O,O,
+	E,  E,  E,  E,  E,  E,  E,  E,  O,O,O,O,O,O,O,O,
+	E,  E,  E,  E,  E,  E,  E,  E,  O,O,O,O,O,O,O,O,
+	E,  E,  E,  E,  E,  E,  E,  E,  O,O,O,O,O,O,O,O,
+	BP, BP, BP, BP, BP, BP, BP, BP, O,O,O,O,O,O,O,O,
+	BR, BN, BB, BQ, BK, BB, BN, BR, O,O,O,O,O,O,O,O,
+};
+ 
 
 //	112	113	114	115	116	117	118	119		120	121	122	123	124	125	126	127
 //	96	97	98	99	100	101	102	103		104	105	106	107	108	109	110	111
@@ -36,16 +36,16 @@ static int emptyboard[128] = {
 //	16	17	18	19	20	21	22	23		24	25	26	27	28	29	30	21
 //	0	1	2	3	4	5	6	7		8	9	10	11	12	13	14	15
 
-int board[128] = {
-	E,  E,  E,  E,  E,  E,  E,  E, O,O,O,O,O,O,O,O,
-	E,  E,  WP,  E,  E,  E,  E,  E, O,O,O,O,O,O,O,O,
-	E,  E,  E, BP,  E,  E,  E,  E, O,O,O,O,O,O,O,O,
-	E,  E,  E,  E,  E,  E,  E,  E, O,O,O,O,O,O,O,O,
-	E,  E,  E,  E, BN,  E,  E,  E, O,O,O,O,O,O,O,O,
-	E,  E,  E,  E,  E,  E,  E,  E, O,O,O,O,O,O,O,O,
-	E,  E,  BP,  E,  E, WP,  E,  E, O,O,O,O,O,O,O,O,
-	E,  E,  E,  E,  E,  E,  E,  E, O,O,O,O,O,O,O,O,
-};
+//int board[128] = {
+//	E,  E,  E,  E,  E,  E,  E,  E, O,O,O,O,O,O,O,O,
+//	E,  E,  WP,  E,  E,  E,  E,  E, O,O,O,O,O,O,O,O,
+//	E,  E,  E, BP,  E,  E,  E,  E, O,O,O,O,O,O,O,O,
+//	E,  E,  E,  E,  E,  E,  E,  E, O,O,O,O,O,O,O,O,
+//	E,  E,  E,  E, BN,  E,  E,  E, O,O,O,O,O,O,O,O,
+//	E,  E,  E,  E,  E,  E,  E,  E, O,O,O,O,O,O,O,O,
+//	E,  E,  BP,  E,  E, WP,  E,  E, O,O,O,O,O,O,O,O,
+//	E,  E,  E,  E,  E,  E,  E,  E, O,O,O,O,O,O,O,O,
+//};
 
 //int board[128] = {
 //	WP,  E,  E,  E,  E,  E,  E,  E, O,O,O,O,O,O,O,O,

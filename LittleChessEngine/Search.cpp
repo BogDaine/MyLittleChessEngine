@@ -71,6 +71,92 @@ int search(const int& depth)
 	return bestEval;
 }
 
+int alphabeta_search(const int& depth, int alpha, int beta)
+{
+	if (depth == 0) {
+		return eval() * ((get_stm()) ? -1 : 1);
+	}
+
+	int bestEval = -99999999;
+	auto moves = legal_moves();
+	if (moves.empty()) {
+		if (is_checked(get_stm()))
+		{
+			return bestEval;
+		}
+		return 0;
+	}
+
+	for (int i = 0; i < moves.size(); i++) {
+		make_move(moves[i]);
+		int ev = -alphabeta_search(depth - 1, -beta, -alpha);
+		
+		unmake_move();
+
+		if (ev > 90000000) {
+			ev -= 900;
+		}
+
+		if (ev >= beta) {
+			return beta;
+		}
+
+		if (ev > alpha)
+		{
+			alpha = ev;
+		}
+	}
+	return alpha;
+}
+
+int alphabeta_root(const int& depth, int alpha, int beta)
+{
+	if (depth == 0) {
+		return eval() * ((get_stm()) ? -1 : 1);
+	}
+
+	int bestEval = -99999999;
+	auto moves = legal_moves();
+	if (moves.empty()) {
+		if (is_checked(get_stm()))
+		{
+			return bestEval;
+		}
+		return 0;
+	}
+
+
+	for (auto& m : moves) {
+		make_move(m);
+		int ev = -alphabeta_search(depth - 1, -beta, -alpha);
+		
+		unmake_move();
+
+		if (ev > 90000000) {
+			ev -= 900;
+		}
+
+		if (ev >= beta) {
+			return beta;
+		}
+
+		if (ev > alpha) {
+			the_best_move = m;
+			alpha = ev;
+		}
+
+
+		m.print(true);
+		std::cout << " - ";
+		std::cout << ev << std::endl;
+	}
+	//std::cout << std::endl;
+	//std::cout << "best eval: ";
+	//bestmove.print(true);
+	//std::cout << " - " << bestEval << std::endl;
+	return alpha;
+}
+
 Move best_move(const int& depth)
 {
 	Move bestmove;
@@ -106,4 +192,9 @@ Move best_move(const int& depth)
 	bestmove.print(true);
 	std::cout << " - " << bestEval << std::endl;
 	return bestmove;
+}
+
+Move get_best_move()
+{
+	return the_best_move;
 }

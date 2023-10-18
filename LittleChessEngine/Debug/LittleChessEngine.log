@@ -1,7 +1,4 @@
-﻿  board.cpp
-C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(286,34): warning C4552: '+': result of expression not used
-C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(1374,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(1383,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(1408,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(1420,8): warning C4101: 'info': unreferenced local variable
+﻿  Search.cpp
+C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\Search.cpp(61,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\Search.cpp(90,20): warning C4018: '<': signed/unsigned mismatch
   LittleChessEngine.vcxproj -> C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\Debug\LittleChessEngine.exe

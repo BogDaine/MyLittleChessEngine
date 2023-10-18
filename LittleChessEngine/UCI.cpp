@@ -4,6 +4,8 @@
 #include <iomanip>
 #include <chrono>
 
+#include <unordered_set>
+
 void command_loop()
 {
 	char* command = new char[COMMAND_LENGTH + 1];
@@ -26,6 +28,7 @@ void command_loop()
 			load_from_fen(command + 12);
 			continue;
 		}
+		//TODO: DELETE
 		if (strcmp("lm", command) == 0)
 		{
 			auto mvs = legal_moves();
@@ -39,6 +42,7 @@ void command_loop()
 			continue;
 		}
 
+		//TODO: DELETE
 		if (strcmp("lmc", command) == 0)
 		{
 			auto mvs = legal_moves(true);
@@ -51,7 +55,7 @@ void command_loop()
 			}
 			continue;
 		}
-
+		//TODO: DELETE
 		if (strcmp("plm", command) == 0)
 		{
 			auto mvs = generate_moves();
@@ -66,12 +70,18 @@ void command_loop()
 		}
 		if (strncmp("mm ", command, 3) == 0) {
 			std::stringstream ss(command + 3);
-			int index = 0;
-			ss >> index;
+			std::string moveString;
+			ss >> moveString;
 			auto mvs = legal_moves();
-			if (index < mvs.size())
+
+			std::unordered_map<std::string, Move> moveMap;
+			for (const auto& m : mvs) {
+				moveMap.insert(std::make_pair<std::string, const Move&>(m.to_fen(), m));
+			}
+
+			if (moveMap.count(moveString))
 			{
-				make_move(mvs[index]);
+				make_move(moveMap[moveString]);
 			}
 			continue;
 		}
@@ -90,7 +100,9 @@ void command_loop()
 		if (strcmp("go", command) == 0) {
 			//auto m = random_move();
 			//std::cout << m.from << " - " << m.to << std::endl;
-			best_move(4);
+			//best_move(4);
+			alphabeta_root(5, -99999999, 99999999);
+			get_best_move().print(true);
 			continue;
 		}
 		if (strncmp("go perft ", command, 9) == 0) {
