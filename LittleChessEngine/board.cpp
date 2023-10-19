@@ -214,6 +214,22 @@ void unmake_move()
 	moveStack.pop();
 }
 
+bool make_move_if_exists(const std::string& move)
+{
+	auto mvs = legal_moves();
+
+	std::unordered_map<std::string, Move> moveMap;
+	for (const auto& m : mvs) {
+		moveMap.insert(std::make_pair<std::string, const Move&>(m.to_fen(), m));
+	}
+
+	if (moveMap.count(move)) {
+		make_move(moveMap[move]);
+		return true;
+	}
+	return false;
+}
+
 void add_pawn_moves(const int& index, const int& color, std::vector<Move>& moves, const bool& capturesOnly) {
 	Move m = { 0,
 					0, 0,
@@ -651,13 +667,22 @@ std::stack<Move>* get_moveStack()
 	return &moveStack;
 }
 
+std::vector<std::string> *get_current_moves()
+{
+	auto *mvs = new std::vector<std::string>();
+	for(const auto& m: moveStack._Get_container()){
+		mvs->push_back(m.to_fen());
+	}
+	return mvs;
+}
+
 int* get_board()
 {
 	return board;
 }
 
 int color(const int& piece) {
-	if (!piece) return 2;
+	if (!piece) return -1;
 	if (piece < BP) return 0;
 	return 1;
 }
@@ -971,10 +996,36 @@ void load_from_fen(const std::string& fen) {
 
 }
 
+void load_from_movelist(const std::vector<std::string>& mvs)
+{
+	auto currMvs = get_current_moves();
+	bool matches = true;
+	int i = 0;
+	for (i = 0; i < currMvs->size() && matches; ++i) {
+		if ((*currMvs)[i] != mvs[i]) {
+			matches = false;
+		}
+	}
+	free(currMvs);
+	if (matches) {
+		for (; i < mvs.size(); ++i) {
+			make_move_if_exists(mvs[i]);
+		}
+	}
+	else {
+		load_from_fen(startfen);
+		for (i = 0; i < mvs.size(); ++i) {
+			make_move_if_exists(mvs[i]);
+		}
+	}
+}
+
 void empty_moveStack()
 {
 	while (moveStack.size())
 		moveStack.pop();
+
+	movestring_list.clear();
 }
 
 int king_pos(const int& color)

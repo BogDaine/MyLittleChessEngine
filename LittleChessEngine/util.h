@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <iostream>
+#include <sstream>
 #include <random>
 
 #define MAX(a,b) ((a)>(b)?(a):(b))
@@ -15,3 +16,4 @@ void vector_to_stream(std::vector<T> v, std::ostream& flow){
 	flow << std::endl;
 }
 int random_int(const int& a, const int& b);
+std::vector<std::string> *tokenize_str(const std::string& str, const char& separator = ' ');

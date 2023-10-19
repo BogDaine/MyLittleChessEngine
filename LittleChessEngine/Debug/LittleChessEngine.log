@@ -1,4 +1,9 @@
-﻿  Search.cpp
-C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\Search.cpp(61,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\Search.cpp(90,20): warning C4018: '<': signed/unsigned mismatch
+﻿  board.cpp
+C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(897,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(906,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(929,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(941,8): warning C4101: 'info': unreferenced local variable
+C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(1004,16): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(1011,12): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\LittleChessEngine\board.cpp(1017,17): warning C4018: '<': signed/unsigned mismatch
   LittleChessEngine.vcxproj -> C:\Users\Bogdi\source\repos\licenta\MyLittleChessEngine\Debug\LittleChessEngine.exe

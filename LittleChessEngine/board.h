@@ -48,6 +48,7 @@ static int WK_pos = -1;
 static int BK_pos = -1;
 
 static std::stack<Move>moveStack;
+static std::vector <std::string> movestring_list;
 
 
 std::vector<Move>generate_moves(const bool& capturesOnly = false);
@@ -60,6 +61,8 @@ int get_en_passant();
 int get_material(const int& color);
 
 std::stack<Move>* get_moveStack();
+std::vector<std::string> *get_current_moves();
+
 int* get_board();
 
 int color(const int& piece);
@@ -79,8 +82,11 @@ void board_init();
 
 //nu se face validarea string-ului FEN!
 void load_from_fen(const std::string& fen);
+void load_from_movelist(const std::vector<std::string>& mvs);
 
 void empty_moveStack();
 
 bool make_move(const Move& m);
 void unmake_move();
+
+bool make_move_if_exists(const std::string& m);

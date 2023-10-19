@@ -4,13 +4,11 @@
 #include <iomanip>
 #include <chrono>
 
-#include <unordered_set>
+#include <unordered_map>
 
 void command_loop()
 {
 	char* command = new char[COMMAND_LENGTH + 1];
-
-
 	while (std::cin.getline(command, COMMAND_LENGTH)) {
 
 		execute_command(command);
@@ -18,13 +16,13 @@ void command_loop()
 }
 void parse_command(char* command, std::string& cmd, std::string& params) {
 	std::stringstream ss(command);
-	
+
 	params = "";
 
 	ss >> cmd;
 	int index = ss.str().find_first_of(' ');
 	if (index != std::string::npos) {
-		params = ss.str().substr(index+1);
+		params = ss.str().substr(index + 1);
 	}
 }
 
@@ -41,10 +39,19 @@ void cmd_ucinewgame(const std::string& params) {
 }
 
 void cmd_position(const std::string& params) {
+
 	if (params.size() < 4)
 		return;
-	if(params == "startpos")
+	if (params == "startpos"){
 		load_from_fen(startfen);
+		return;
+	}
+	if (params.substr(0, 15) == "startpos moves ") {
+		auto mvs = tokenize_str(params.substr(15));
+		load_from_movelist(*mvs);
+		free(mvs);
+	}
+
 	if (params.substr(0, 4) == "fen ") {
 		load_from_fen(params.substr(4));
 	}
@@ -86,7 +93,7 @@ void cmd_go(const std::string& params) {
 
 		}
 
-		alphabeta_root(5, - 99999999, 99999999);
+		alphabeta_root(6, - 99999999, 99999999);
 		std::cout << "bestmove " << get_best_move().to_fen() << std::endl;
 	}
 }
@@ -96,16 +103,7 @@ void cmd_eval(const std::string& params) {
 }
 
 void cmd_mm(const std::string& params) {
-	auto mvs = legal_moves();
-
-	std::unordered_map<std::string, Move> moveMap;
-	for (const auto& m : mvs) {
-		moveMap.insert(std::make_pair<std::string, const Move&>(m.to_fen(), m));
-	}
-
-	if (moveMap.count(params)){
-		make_move(moveMap[params]);
-	}
+	make_move_if_exists(params);
 }
 void cmd_umm(const std::string& params) {
 	unmake_move();
@@ -131,7 +129,6 @@ void execute_command(char* command)
 {
 	std::string cmd, params;
 	parse_command(command, cmd, params);
-	
 	if (command_map.count(cmd))
 		command_map[cmd](params);
 }
