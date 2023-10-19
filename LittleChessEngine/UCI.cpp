@@ -13,100 +13,65 @@ void command_loop()
 
 	while (std::cin.getline(command, COMMAND_LENGTH)) {
 
-		if (strcmp("d", command) == 0)
-		{
-			board_to_stream(std::cout);
-			//std::cout << std::setw(20);
-			std::cout << std::setw(15) << "stm: " << get_stm() << std::endl;
-			std::cout << std::setw(15) << "castle rights: " << get_castle_rights() << std::endl;
-			std::cout << std::setw(15) << "en-passant: " << get_en_passant() << std::endl;
-			continue;
-		}
-		if (strncmp("position fen ", command, 13) == 0)
-		{
-			//position fen xxxxxxxx/xxxxxxxx/xxxxxxxx/xxxxxxxx/xxxxxxxx/xxxxxxxx/xxxxxxxx/xxxxxxxx x x x x
-			load_from_fen(command + 12);
-			continue;
-		}
-		//TODO: DELETE
-		if (strcmp("lm", command) == 0)
-		{
-			auto mvs = legal_moves();
-			std::cout << mvs.size() << " moves;" << std::endl;
-			int i = 0;
-			for (auto x : mvs) {
-				std::cout << i++ << ": ";
-				x.print(true);
-				std::cout << std::endl;
-			}
-			continue;
-		}
+		execute_command(command);
+	}
+}
+void parse_command(char* command, std::string& cmd, std::string& params) {
+	std::stringstream ss(command);
+	
+	params = "";
 
-		//TODO: DELETE
-		if (strcmp("lmc", command) == 0)
-		{
-			auto mvs = legal_moves(true);
-			std::cout << mvs.size() << " moves;" << std::endl;
-			int i = 0;
-			for (auto x : mvs) {
-				std::cout << i++ << ": ";
-				x.print(true);
-				std::cout << std::endl;
-			}
-			continue;
-		}
-		//TODO: DELETE
-		if (strcmp("plm", command) == 0)
-		{
-			auto mvs = generate_moves();
-			std::cout << mvs.size() << " moves;" << std::endl;
-			int i = 0;
-			for (auto x : mvs) {
-				std::cout << i++ << ": ";
-				x.print(true);
-				std::cout << std::endl;
-			}
-			continue;
-		}
-		if (strncmp("mm ", command, 3) == 0) {
-			std::stringstream ss(command + 3);
-			std::string moveString;
-			ss >> moveString;
-			auto mvs = legal_moves();
+	ss >> cmd;
+	int index = ss.str().find_first_of(' ');
+	if (index != std::string::npos) {
+		params = ss.str().substr(index+1);
+	}
+}
 
-			std::unordered_map<std::string, Move> moveMap;
-			for (const auto& m : mvs) {
-				moveMap.insert(std::make_pair<std::string, const Move&>(m.to_fen(), m));
-			}
+void cmd_uci(const std::string& params) {
+	std::cout << "id name Little Chess Engine\nid author Bogdan Osian" << std::endl;
+	std::cout << "uciok" << std::endl;
+}
+void cmd_isready(const std::string& params) {
+	std::cout << "readyok" << std::endl;
+}
 
-			if (moveMap.count(moveString))
-			{
-				make_move(moveMap[moveString]);
-			}
-			continue;
-		}
+void cmd_ucinewgame(const std::string& params) {
+	load_from_fen(startfen);
+}
 
-		if (strcmp("umm", command) == 0) {
-			if (get_moveStack()->size()) {
+void cmd_position(const std::string& params) {
+	if (params.size() < 4)
+		return;
+	if(params == "startpos")
+		load_from_fen(startfen);
+	if (params.substr(0, 4) == "fen ") {
+		load_from_fen(params.substr(4));
+	}
+}
 
-				unmake_move();
-			}
-		}
-		if (strcmp("eval", command) == 0) {
-			std::cout << eval() << std::endl;
-			continue;
-		}
+void cmd_d(const std::string& params) {
+	board_to_stream(std::cout);
+	
+	std::cout << std::setw(15) << "stm: " << get_stm() << std::endl;
+	std::cout << std::setw(15) << "castle rights: " << get_castle_rights() << std::endl;
+	std::cout << std::setw(15) << "en-passant: " << get_en_passant() << std::endl;
 
-		if (strcmp("go", command) == 0) {
-			//auto m = random_move();
-			//std::cout << m.from << " - " << m.to << std::endl;
-			//best_move(4);
-			alphabeta_root(5, -99999999, 99999999);
-			get_best_move().print(true);
-			continue;
-		}
-		if (strncmp("go perft ", command, 9) == 0) {
-			std::stringstream ss(command + 9);
+	//TODO: print checkers!
+}
+
+void cmd_go(const std::string& params) {
+	//TODO: perft
+	//TODO: change depth
+
+	/*if (params != "") {
+		
+	}
+	else*/
+	{
+		if (params.size() > 6 && params.substr(0, 6) == "perft ") {
+
+			std::stringstream ss(params.substr(6));
 			std::cout << "PERFORMANCE TEST!!" << std::endl;
 
 			int depth;
@@ -117,15 +82,56 @@ void command_loop()
 			const auto end{ std::chrono::steady_clock::now() };
 			std::chrono::duration<double> elapsed_seconds{ end - start };
 			std::cout << "elapsed time: " << elapsed_seconds.count() << " s" << std::endl;
-			continue;
+			return;
+
 		}
 
-		if (strcmp("kpw", command) == 0) {
-			//std::cout << king_pos(0) << std::endl;
-			std::cout << is_checked(0) << std::endl;
-		}
-		if (strcmp("kpb", command) == 0) {
-			std::cout << is_checked(1) << std::endl;
-		}
+		alphabeta_root(5, - 99999999, 99999999);
+		std::cout << "bestmove " << get_best_move().to_fen() << std::endl;
 	}
+}
+
+void cmd_eval(const std::string& params) {
+	std::cout << eval() << std::endl;
+}
+
+void cmd_mm(const std::string& params) {
+	auto mvs = legal_moves();
+
+	std::unordered_map<std::string, Move> moveMap;
+	for (const auto& m : mvs) {
+		moveMap.insert(std::make_pair<std::string, const Move&>(m.to_fen(), m));
+	}
+
+	if (moveMap.count(params)){
+		make_move(moveMap[params]);
+	}
+}
+void cmd_umm(const std::string& params) {
+	unmake_move();
+}
+
+//TODO: move this initialization
+typedef void (*cmd_func)(const std::string&);
+
+static std::unordered_map < std::string, cmd_func> command_map = {
+	std::make_pair<std::string, cmd_func>("uci", &cmd_uci),
+	std::make_pair<std::string, cmd_func>("isready", &cmd_isready),
+	std::make_pair<std::string, cmd_func>("ucinewgame", &cmd_ucinewgame),
+	std::make_pair<std::string, cmd_func>("position", &cmd_position),
+	std::make_pair<std::string, cmd_func>("go", &cmd_go),
+	std::make_pair<std::string, cmd_func>("d", &cmd_d),
+	std::make_pair<std::string, cmd_func>("eval", &cmd_eval),
+
+	std::make_pair<std::string, cmd_func>("mm", &cmd_mm),
+	std::make_pair<std::string, cmd_func>("umm", &cmd_umm),
+};
+
+void execute_command(char* command)
+{
+	std::string cmd, params;
+	parse_command(command, cmd, params);
+	
+	if (command_map.count(cmd))
+		command_map[cmd](params);
 }

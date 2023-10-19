@@ -25,6 +25,7 @@ static const int bishop_dir[4] = {NW, NE, SE, SW};
 static const int rook_dir[4] = { NORTH, WEST, SOUTH, EAST };
 static const int king_dir[8] = { NORTH, WEST, SOUTH, EAST, NW, NE, SE, SW };
 
+static const std::string startfen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
 struct Piece {
 	int type;
@@ -48,9 +49,6 @@ static int BK_pos = -1;
 
 static std::stack<Move>moveStack;
 
-
-
-std::vector<int>straight_moves(const int& sq, int color);
 
 std::vector<Move>generate_moves(const bool& capturesOnly = false);
 std::vector<Move>legal_moves(const bool& capturesOnly = false);

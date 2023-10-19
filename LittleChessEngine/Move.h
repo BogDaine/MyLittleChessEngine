@@ -30,7 +30,4 @@ struct Move {
 
 	std::string to_fen ()const;
 	void print(bool asfen = false, bool verbose = false, std::ostream& os = std::cout) const;
-	//friend operator<<(std::ostream& s, Move m);
-
-	//TODO: print
 };
